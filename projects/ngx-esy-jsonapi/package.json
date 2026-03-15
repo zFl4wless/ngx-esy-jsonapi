@@ -1,6 +1,6 @@
 {
   "name": "ngx-esy-jsonapi",
-  "version": "20.0.0",
+  "version": "20.0.1",
   "description": "A lightweight Angular adapter for JSON API (Angular 20+)",
   "repository": {
     "type": "git",
