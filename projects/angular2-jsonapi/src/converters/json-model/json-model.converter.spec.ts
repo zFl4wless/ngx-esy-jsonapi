@@ -147,7 +147,7 @@ describe('JsonModel converter', () => {
         result.forEach((element, index: number) => {
           expect(element.name).toBe(DATA[index].name);
           expect(element.students).toBe(DATA[index].students);
-          expect(element.foundation).toContain(DATA[index].foundation);
+          expect(new Date(element.foundation).getTime()).toBe(schools[index].foundation.getTime());
         });
       });
     });
@@ -164,10 +164,11 @@ describe('JsonModel converter', () => {
 
       it('should return serialized school when provided School instance', () => {
         const DATA = {name: 'Massachusetts Institute of Technology', students: 11319, foundation: '1861-10-04'};
-        const result = converter.unmask(new School(DATA));
+        const school = new School(DATA);
+        const result = converter.unmask(school);
         expect(result.name).toBe(DATA.name);
         expect(result.students).toBe(DATA.students);
-        expect(result.foundation).toContain(DATA.foundation);
+        expect(new Date(result.foundation).getTime()).toBe(school.foundation.getTime());
       });
     });
   });

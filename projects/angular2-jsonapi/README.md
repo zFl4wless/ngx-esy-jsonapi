@@ -1,6 +1,6 @@
 # Angular 2 JSON API
 
-Fork of the [angular2-jsonapi](https://github.com/ghidoz/angular2-jsonapi) repo. This version is compatible with `Angular 18`
+Fork of the [angular2-jsonapi](https://github.com/ghidoz/angular2-jsonapi) repo. This version is compatible with `Angular 20`
 
 A lightweight Angular 2 adapter for [JSON API](http://jsonapi.org/)
 
@@ -57,12 +57,12 @@ Moreover, using Angular2 and Typescript, we like to interact with classes and mo
 
 To install this library, run:
 ```bash
-$ npm install nab-angular2-jsonapi --save
+$ npm install ngx-esy-jsonapi --save
 ```
 
 Add the `JsonApiModule` to your app module imports:
 ```typescript
-import { JsonApiModule } from 'nab-angular2-jsonapi';
+import { JsonApiModule } from 'ngx-esy-jsonapi';
 
 @NgModule({
   imports: [
@@ -87,7 +87,7 @@ Firstly, create your `Datastore` service:
 - Pass the `HttpClient` depencency to the parent constructor.
 
 ```typescript
-import { JsonApiDatastoreConfig, JsonApiDatastore, DatastoreConfig } from 'nab-angular2-jsonapi';
+import { JsonApiDatastoreConfig, JsonApiDatastore, DatastoreConfig } from 'ngx-esy-jsonapi';
 
 const config: DatastoreConfig = {
   baseUrl: 'http://localhost:8000/v1/',
@@ -117,7 +117,7 @@ Then set up your models:
 - (optional) Define your [Metadata](#metadata)
 
 ```typescript
-import { JsonApiModelConfig, JsonApiModel, Attribute, HasMany, BelongsTo } from 'nab-angular2-jsonapi';
+import { JsonApiModelConfig, JsonApiModel, Attribute, HasMany, BelongsTo } from 'ngx-esy-jsonapi';
 
 @JsonApiModelConfig({
     type: 'posts'
@@ -499,7 +499,7 @@ Error handling is done in the `subscribe` method of the returned Observables.
 If your server returns valid [JSON API Error Objects](http://jsonapi.org/format/#error-objects) you can access them in your onError method:
 
 ```typescript
-import {ErrorResponse} from "nab-angular2-jsonapi";
+import {ErrorResponse} from "ngx-esy-jsonapi";
 
 ...
 

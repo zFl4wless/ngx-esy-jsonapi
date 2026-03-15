@@ -1,13 +1,13 @@
 {
-  "name": "nab-angular2-jsonapi",
-  "version": "19.0.0-alpha.4",
-  "description": "A lightweight Angular 19 adapter for JSON API",
+  "name": "ngx-esy-jsonapi",
+  "version": "20.0.0",
+  "description": "A lightweight Angular adapter for JSON API (Angular 20+)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/karwank/nab-angular2-jsonapi"
+    "url": "https://github.com/zfl4wless/ngx-esy-jsonapi"
   },
   "author": {
-    "name": "KarwanK"
+    "name": "zFl4wless"
   },
   "keywords": [
     "angular",
@@ -18,18 +18,19 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/karwank/nab-angular2-jsonapi/issues"
+    "url": "https://github.com/zfl4wless/ngx-esy-jsonapi/issues"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
     "lodash-es": "^4.17.21",
     "qs": "^6.13.1",
+    "reflect-metadata": "^0.2.2",
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular/common": "^19.0.0",
-    "@angular/core": "^19.0.0",
+    "@angular/common": "^20.0.0",
+    "@angular/core": "^20.0.0",
     "@abraham/reflection": "^0.12.0",
-    "rxjs": "*"
+    "rxjs": "^8.0.0"
   }
 }

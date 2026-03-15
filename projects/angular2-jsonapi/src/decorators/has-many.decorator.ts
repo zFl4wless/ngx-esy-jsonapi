@@ -1,6 +1,7 @@
 export function HasMany(config: any = {}) {
   return (target: any, propertyName: string | symbol) => {
-    const annotations = Reflect.getMetadata('HasMany', target) || [];
+    const annotations: Array<{ propertyName: string | symbol; relationship: string | symbol }> =
+      (Reflect.getMetadata('HasMany', target) as Array<{ propertyName: string | symbol; relationship: string | symbol }>) || [];
 
     annotations.push({
       propertyName,

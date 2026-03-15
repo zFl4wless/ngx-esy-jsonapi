@@ -2,8 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { find } from 'lodash-es';
-import { catchError, map } from 'rxjs/operators';
-import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { JsonApiModel } from '../models/json-api.model';
 import { ErrorResponse } from '../models/error-response.model';
 import { JsonApiQueryData } from '../models/json-api-query-data';
@@ -189,12 +188,12 @@ export class JsonApiDatastore {
   }
 
   public peekRecord<T extends JsonApiModel>(modelType: ModelType<T>, id: string): T | null {
-    const type: string = Reflect.getMetadata('JsonApiModelConfig', modelType).type;
+    const type: string = (Reflect.getMetadata('JsonApiModelConfig', modelType) as ModelConfig).type;
     return this.internalStore[type] ? this.internalStore[type][id] as T : null;
   }
 
   public peekAll<T extends JsonApiModel>(modelType: ModelType<T>): Array<T> {
-    const type = Reflect.getMetadata('JsonApiModelConfig', modelType).type;
+    const type = (Reflect.getMetadata('JsonApiModelConfig', modelType) as ModelConfig).type;
     const typeStore = this.internalStore[type];
     return typeStore ? Object.keys(typeStore).map((key) => typeStore[key] as T) : [];
   }
@@ -404,14 +403,14 @@ export class JsonApiDatastore {
       error.error.errors instanceof Array
     ) {
       const errors: ErrorResponse = new ErrorResponse(error.error.errors);
-      return throwError(errors);
+      return throwError(() => errors);
     }
 
-    return throwError(error);
+    return throwError(() => error);
   }
 
   protected parseMeta(body: any, modelType: ModelType<JsonApiModel>): any {
-    const metaModel: any = Reflect.getMetadata('JsonApiModelConfig', modelType).meta;
+    const metaModel: any = (Reflect.getMetadata('JsonApiModelConfig', modelType) as ModelConfig).meta;
     return new metaModel(body);
   }
 
@@ -467,7 +466,7 @@ export class JsonApiDatastore {
   }
 
   protected updateRelationships<T extends JsonApiModel>(model: T, relationships: any): T {
-    const modelsTypes: any = Reflect.getMetadata('JsonApiDatastoreConfig', this.constructor).models;
+    const modelsTypes: any = (Reflect.getMetadata('JsonApiDatastoreConfig', this.constructor) as DatastoreConfig).models;
 
     for (const relationship in relationships) {
       if (relationships.hasOwnProperty(relationship) && model.hasOwnProperty(relationship) && model[relationship]) {

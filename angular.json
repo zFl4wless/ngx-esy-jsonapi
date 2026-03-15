@@ -21,9 +21,9 @@
           "options": {
             "tsConfig": "projects/angular2-jsonapi/tsconfig.spec.json",
             "polyfills": [
+              "reflect-metadata",
               "zone.js",
-              "zone.js/testing",
-              "@abraham/reflection"
+              "zone.js/testing"
             ],
             "karmaConfig": "projects/angular2-jsonapi/karma.conf.js"
           }

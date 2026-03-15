@@ -109,7 +109,7 @@ export class JsonApiModel {
   }
 
   get modelConfig(): ModelConfig {
-    return Reflect.getMetadata('JsonApiModelConfig', this.constructor);
+    return Reflect.getMetadata('JsonApiModelConfig', this.constructor) as ModelConfig;
   }
 
   private parseHasMany(data: any, included: any, remainingModels: Array<any>): void {
@@ -128,7 +128,8 @@ export class JsonApiModel {
 
             if (!includes(modelTypesFetched, typeName)) {
               modelTypesFetched.push(typeName);
-              const modelType: ModelType<this> = Reflect.getMetadata('JsonApiDatastoreConfig', this.internalDatastore.constructor).models[typeName];
+              const datastoreModels = (Reflect.getMetadata('JsonApiDatastoreConfig', this.internalDatastore.constructor) as any).models;
+              const modelType: ModelType<this> = datastoreModels[typeName];
 
               if (modelType) {
                 const relationshipModels: JsonApiModel[] = this.getHasManyRelationship(
@@ -164,7 +165,8 @@ export class JsonApiModel {
           const dataRelationship: any = (relationship.data instanceof Array) ? relationship.data[0] : relationship.data;
           if (dataRelationship) {
             const typeName: string = dataRelationship.type;
-            const modelType: ModelType<this> = Reflect.getMetadata('JsonApiDatastoreConfig', this.internalDatastore.constructor).models[typeName];
+            const datastoreModels = (Reflect.getMetadata('JsonApiDatastoreConfig', this.internalDatastore.constructor) as any).models;
+            const modelType: ModelType<this> = datastoreModels[typeName];
 
             if (modelType) {
               const relationshipModel = this.getBelongsToRelationship(

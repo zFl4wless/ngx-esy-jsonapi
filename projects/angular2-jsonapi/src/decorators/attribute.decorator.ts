@@ -39,43 +39,49 @@ export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDeco
 
     saveAnnotations();
 
-    const originalConstructor = target.constructor;
+    const getter = function() {
+      return this[`_${propertyName}`];
+    };
 
-    function newConstructor(...args: any[]) {
-      const instance = new originalConstructor(...args);
+    const setter = function(newVal: any) {
+      const targetType = Reflect.getMetadata('design:type', target, propertyName);
+      const convertedValue = converter(targetType, newVal);
 
-      // Dodanie getter i setter na poziomie instancji
-      Object.defineProperty(instance, propertyName, {
-        get() {
-          return instance[`_${propertyName}`];
-        },
-        set(newVal: any) {
-          const targetType = Reflect.getMetadata('design:type', target, propertyName);
-          const convertedValue = converter(targetType, newVal);
-          const oldValue = instance[`_${propertyName}`];
+      this[`_${propertyName}`] = convertedValue;
 
-          instance[`_${propertyName}`] = convertedValue;
+      if (!this[AttributeMetadata]) {
+        this[AttributeMetadata] = {};
+      }
 
-          if (!instance[AttributeMetadata]) {
-            instance[AttributeMetadata] = {};
-          }
-          instance[AttributeMetadata][propertyName] = {
-            newValue: convertedValue,
-            oldValue,
-            nested: false,
-            serializedName: options.serializedName,
-            hasDirtyAttributes: !_.isEqual(oldValue, convertedValue),
-            serialisationValue: converter(targetType, convertedValue, true),
-          };
-        },
+      if (this[AttributeMetadata][propertyName] && !this.isModelInitialization()) {
+        this[AttributeMetadata][propertyName].newValue = convertedValue;
+        this[AttributeMetadata][propertyName].hasDirtyAttributes = !_.isEqual(
+          this[AttributeMetadata][propertyName].oldValue,
+          convertedValue
+        );
+        this[AttributeMetadata][propertyName].serialisationValue = converter(targetType, convertedValue, true);
+      } else {
+        const isInitialization = this.isModelInitialization();
+        const shouldMarkDirty = !isInitialization || this.id === undefined || this.id === null;
+        const oldValue = shouldMarkDirty ? undefined : _.cloneDeep(convertedValue);
+        this[AttributeMetadata][propertyName] = {
+          newValue: convertedValue,
+          oldValue,
+          nested: false,
+          serializedName: options.serializedName,
+          hasDirtyAttributes: shouldMarkDirty,
+          serialisationValue: converter(targetType, convertedValue, true),
+        };
+      }
+    };
+
+    if (delete target[propertyName]) {
+      Object.defineProperty(target, propertyName, {
+        get: getter,
+        set: setter,
         enumerable: true,
         configurable: true,
       });
-
-      return instance;
     }
-
-    newConstructor.prototype = originalConstructor.prototype;
-    return newConstructor;
   };
 }

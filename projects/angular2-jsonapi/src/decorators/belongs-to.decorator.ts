@@ -1,6 +1,7 @@
 export function BelongsTo(config: any = {}) {
   return (target: any, propertyName: string | symbol) => {
-    const annotations = Reflect.getMetadata('BelongsTo', target) || [];
+    const annotations: Array<{ propertyName: string | symbol; relationship: string | symbol }> =
+      (Reflect.getMetadata('BelongsTo', target) as Array<{ propertyName: string | symbol; relationship: string | symbol }>) || [];
 
     annotations.push({
       propertyName,

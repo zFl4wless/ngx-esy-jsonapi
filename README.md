@@ -1,6 +1,6 @@
 # Angular 2 JSON API
 
-Fork of the [angular2-jsonapi](https://github.com/ghidoz/angular2-jsonapi) repo. This version is compatible with `Angular 18`
+Fork of the [angular2-jsonapi](https://github.com/ghidoz/angular2-jsonapi) repo. This version is compatible with `Angular 20+`
 
 A lightweight Angular 2 adapter for [JSON API](http://jsonapi.org/)
 
@@ -24,12 +24,12 @@ A lightweight Angular 2 adapter for [JSON API](http://jsonapi.org/)
     - [Dates](#dates)
 - [Development](#development)
 - [Additional tools](#additional-tools)
-- [License](#licence)
+- [License](#license)
 
 ## Introduction
 Why this library? Because [JSON API](http://jsonapi.org/) is an awesome standard, but the responses that you get and the way to interact with endpoints are not really easy and directly consumable from Angular.
 
-Moreover, using Angular2 and Typescript, we like to interact with classes and models, not with bare JSONs. Thanks to this library, you will be able to map all your data into models and relationships like these:
+Moreover, using Angular2 and TypeScript, we like to interact with classes and models, not with bare JSONs. Thanks to this library, you will be able to map all your data into models and relationships like these:
 
 ```javascript
 [
@@ -57,12 +57,12 @@ Moreover, using Angular2 and Typescript, we like to interact with classes and mo
 
 To install this library, run:
 ```bash
-$ npm install nab-angular2-jsonapi --save
+$ npm install ngx-esy-jsonapi --save
 ```
 
 Add the `JsonApiModule` to your app module imports:
 ```typescript
-import { JsonApiModule } from 'nab-angular2-jsonapi';
+import { JsonApiModule } from 'ngx-esy-jsonapi';
 
 @NgModule({
   imports: [
@@ -87,7 +87,7 @@ Firstly, create your `Datastore` service:
 - Pass the `HttpClient` depencency to the parent constructor.
 
 ```typescript
-import { JsonApiDatastoreConfig, JsonApiDatastore, DatastoreConfig } from 'nab-angular2-jsonapi';
+import { JsonApiDatastoreConfig, JsonApiDatastore, DatastoreConfig } from 'ngx-esy-jsonapi';
 
 const config: DatastoreConfig = {
   baseUrl: 'http://localhost:8000/v1/',
@@ -117,7 +117,7 @@ Then set up your models:
 - (optional) Define your [Metadata](#metadata)
 
 ```typescript
-import { JsonApiModelConfig, JsonApiModel, Attribute, HasMany, BelongsTo } from 'nab-angular2-jsonapi';
+import { JsonApiModelConfig, JsonApiModel, Attribute, HasMany, BelongsTo } from 'ngx-esy-jsonapi';
 
 @JsonApiModelConfig({
     type: 'posts'
@@ -172,8 +172,8 @@ export class User extends JsonApiModel {
 
 Now, you can use your `Datastore` in order to query your API with the `findAll()` method:
 - The first argument is the type of object you want to query.
-- The second argument is the list of params: write them in JSON format and they will be serialized.
-- The returned value is a document which gives access to the metdata and the models.
+- The second argument is the list of params: write them in JSON format, and they will be serialized.
+- The returned value is a document that gives access to the metadata and the models.
 ```typescript
 // ...
 constructor(private datastore: Datastore) { }
@@ -190,7 +190,7 @@ getPosts(){
 }
 ```
 
-Use `peekAll()` to retrieve all of the records for a given type that are already loaded into the store, without making a network request:
+Use `peekAll()` to retrieve all the records for a given type that are already loaded into the store, without making a network request:
 
 ```typescript
 let posts = this.datastore.peekAll(Post);
@@ -244,7 +244,7 @@ this.datastore.findRecord(Post, '1').subscribe(
 
 Records are persisted on a per-instance basis. Call `save()` on any instance of `JsonApiModel` and it will make a network request.
 
-The library takes care of tracking the state of each record for you, so that newly created records are treated differently from existing records when saving.
+The library takes care of tracking the state of each record for you so that newly created records are treated differently from existing records when saving.
 
 Newly created records will be `POST`ed:
 
@@ -298,7 +298,7 @@ this.datastore.findRecord(Post, '1').subscribe(
 
 #### Deleting Records
 
-For deleting a record, just call the datastore's method `deleteRecord()`, passing the type and the id of the record:
+For deleting a record, call the datastore's method `deleteRecord()`, passing the type and the id of the record:
 
 ```typescript
 this.datastore.deleteRecord(Post, '1').subscribe(() => {
@@ -310,7 +310,7 @@ this.datastore.deleteRecord(Post, '1').subscribe(() => {
 
 #### Querying records
 
-In order to query an object including its relationships, you can pass in its options the attribute name you want to load with the relationships:
+To query an object including its relationships, you can pass in its options the attribute name you want to load with the relationships:
 
 ```typescript
 this.datastore.findAll(Post, {
@@ -324,7 +324,7 @@ this.datastore.findAll(Post, {
 );
 ```
 
-The same, if you want to include relationships when finding a record:
+The same if you want to include relationships when finding a record:
 
 ```typescript
 this.datastore.findRecord(Post, '1', {
@@ -468,7 +468,7 @@ You can also add your custom headers to be appended to each http call:
 this.datastore.headers = new HttpHeaders({'Authorization': 'Bearer ' + accessToken});
 ```
 
-Or you can pass the headers as last argument of any datastore call method:
+Or you can pass the headers as the last argument of any datastore call method:
 
 ```typescript
 this.datastore.findAll(Post, {
@@ -499,7 +499,7 @@ Error handling is done in the `subscribe` method of the returned Observables.
 If your server returns valid [JSON API Error Objects](http://jsonapi.org/format/#error-objects) you can access them in your onError method:
 
 ```typescript
-import {ErrorResponse} from "nab-angular2-jsonapi";
+import {ErrorResponse} from "ngx-esy-jsonapi";
 
 ...
 
@@ -518,7 +518,7 @@ It's also possible to handle errors for all requests by overriding `handleError(
 
 ### Dates
 
-The library will automatically transform date values into `Date` objects and it will serialize them when sending to the server. In order to do that, remember to set the type of the corresponding attribute as `Date`:
+The library will automatically transform date values into `Date` objects, and it will serialize them when sending to the server. To do that, remember to set the type of the corresponding attribute as `Date`:
 
 ```typescript
 @JsonApiModelConfig({
