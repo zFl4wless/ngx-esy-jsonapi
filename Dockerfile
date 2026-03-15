@@ -1,5 +1,5 @@
-# docker build -f Dockerfile . -t ubuntu24.04-node-22-angular2-jsonapi
-FROM ubuntu:24.04 AS ubuntu24.04-node-22-angular2-jsonapi
+# docker build -f Dockerfile . -t ubuntu24.04-node-22-ngx-esy-jsonapi
+FROM ubuntu:24.04 AS ubuntu24.04-node-22-ngx-esy-jsonapi
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y openssh-server openssh-client git curl nano build-essential sudo
@@ -16,7 +16,7 @@ USER ubuntu
 
 WORKDIR /home/ubuntu
 
-ENV APP_PATH /home/ubuntu/angular2-jsonapi
+ENV APP_PATH /home/ubuntu/ngx-esy-jsonapi
 SHELL ["/bin/bash", "-l", "-c"]
 RUN mkdir -p $APP_PATH
 

@@ -20,11 +20,11 @@
       "dom",
     ],
     "paths": {
-      "angular2-jsonapi": [
-        "dist/angular2-jsonapi"
+      "ngx-esy-jsonapi": [
+        "dist/ngx-esy-jsonapi"
       ],
-      "angular2-jsonapi/*": [
-        "dist/angular2-jsonapi/*"
+      "ngx-esy-jsonapi/*": [
+        "dist/ngx-esy-jsonapi/*"
       ]
     },
     "useDefineForClassFields": false
