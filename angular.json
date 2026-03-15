@@ -3,37 +3,37 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular2-jsonapi": {
+    "ngx-esy-jsonapi": {
       "projectType": "library",
-      "root": "projects/angular2-jsonapi",
-      "sourceRoot": "projects/angular2-jsonapi/src",
+      "root": "projects/ngx-esy-jsonapi",
+      "sourceRoot": "projects/ngx-esy-jsonapi/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/angular2-jsonapi/tsconfig.lib.json",
-            "project": "projects/angular2-jsonapi/ng-package.json"
+            "tsConfig": "projects/ngx-esy-jsonapi/tsconfig.lib.json",
+            "project": "projects/ngx-esy-jsonapi/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/angular2-jsonapi/tsconfig.spec.json",
+            "tsConfig": "projects/ngx-esy-jsonapi/tsconfig.spec.json",
             "polyfills": [
               "reflect-metadata",
               "zone.js",
               "zone.js/testing"
             ],
-            "karmaConfig": "projects/angular2-jsonapi/karma.conf.js"
+            "karmaConfig": "projects/ngx-esy-jsonapi/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/angular2-jsonapi/**/*.ts",
-              "projects/angular2-jsonapi/**/*.html"
+              "projects/ngx-esy-jsonapi/**/*.ts",
+              "projects/ngx-esy-jsonapi/**/*.html"
             ]
           }
         }

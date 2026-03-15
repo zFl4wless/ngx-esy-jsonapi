@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/angular2-jsonapi'),
+      dir: require('path').join(__dirname, '../../coverage/ngx-esy-jsonapi'),
       subdir: '.',
       reporters: [
         // { type: 'html' },

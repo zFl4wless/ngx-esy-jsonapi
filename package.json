@@ -1,5 +1,5 @@
 {
-  "name": "angular2-jsonapi-workspace",
+  "name": "ngx-esy-jsonapi-workspace",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -34,8 +34,6 @@
     "@types/node": "^22.9.1",
     "@typescript-eslint/eslint-plugin": "8.15.0",
     "@typescript-eslint/parser": "8.15.0",
-    "codelyzer": "^6.0.2",
-    "coveralls": "^3.1.1",
     "date-fns": "^4.1.0",
     "eslint": "^9.15.0",
     "jasmine-core": "^5.4.0",

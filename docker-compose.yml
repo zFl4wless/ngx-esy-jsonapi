@@ -1,11 +1,11 @@
 version: '3'
 services:
   builder:
-    container_name: angular2-jsonapi
-    image: ubuntu24.04-node-22-angular2-jsonapi
+    container_name: ngx-esy-jsonapi
+    image: ubuntu24.04-node-22-ngx-esy-jsonapi
     network_mode: 'host'
     volumes:
-      - .:/home/ubuntu/angular2-jsonapi
+      - .:/home/ubuntu/ngx-esy-jsonapi
     stdin_open: true
     tty: true
     env_file:
