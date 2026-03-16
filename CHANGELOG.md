@@ -1,3 +1,7 @@
+# [21.0.0]
+
+* Makes the library compatible with Angular 21
+
 # [20.0.1]
 
 * Updates the README.md documentation
