@@ -1,3 +1,11 @@
+# [20.0.2]
+
+* Publish the compiled Angular package instead of the library source tree
+* Replace undeclared `lodash` imports with tree-shakable `lodash-es` imports
+* Update `lodash-es` to `^4.18.1`
+* Update `qs` to `^6.15.3` to address GHSA-q8mj-m7cp-5q26
+* Include and load `reflect-metadata` for decorator metadata support
+
 # [20.0.1]
 
 * Updates the README.md documentation

@@ -1,7 +1,7 @@
 import { AttributeMetadata } from '../constants/symbols';
 import { AttributeDecoratorOptions } from '../interfaces/attribute-decorator-options.interface';
 import { DateConverter } from '../converters/date/date.converter';
-import * as _ from 'lodash';
+import { cloneDeep, isEqual } from 'lodash-es';
 
 export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDecorator {
   return (target: any, propertyName: string) => {
@@ -55,7 +55,7 @@ export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDeco
 
       if (this[AttributeMetadata][propertyName] && !this.isModelInitialization()) {
         this[AttributeMetadata][propertyName].newValue = convertedValue;
-        this[AttributeMetadata][propertyName].hasDirtyAttributes = !_.isEqual(
+        this[AttributeMetadata][propertyName].hasDirtyAttributes = !isEqual(
           this[AttributeMetadata][propertyName].oldValue,
           convertedValue
         );
@@ -63,7 +63,7 @@ export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDeco
       } else {
         const isInitialization = this.isModelInitialization();
         const shouldMarkDirty = !isInitialization || this.id === undefined || this.id === null;
-        const oldValue = shouldMarkDirty ? undefined : _.cloneDeep(convertedValue);
+        const oldValue = shouldMarkDirty ? undefined : cloneDeep(convertedValue);
         this[AttributeMetadata][propertyName] = {
           newValue: convertedValue,
           oldValue,

@@ -1,6 +1,6 @@
 import { AttributeMetadata } from '../constants/symbols';
 import { AttributeDecoratorOptions } from '../interfaces/attribute-decorator-options.interface';
-import * as _ from 'lodash';
+import { cloneDeep, isEqual } from 'lodash-es';
 
 export function NestedAttribute(options: AttributeDecoratorOptions = {}): PropertyDecorator {
   return (target: any, propertyName: string) => {
@@ -50,19 +50,19 @@ export function NestedAttribute(options: AttributeDecoratorOptions = {}): Proper
       }
       if (instance[AttributeMetadata][propertyName] && !instance.isModelInitialization()) {
         instance[AttributeMetadata][propertyName].newValue = newValue;
-        instance[AttributeMetadata][propertyName].hasDirtyAttributes = !_.isEqual(
+        instance[AttributeMetadata][propertyName].hasDirtyAttributes = !isEqual(
           instance[AttributeMetadata][propertyName].oldValue,
           newValue
         );
         instance[AttributeMetadata][propertyName].serialisationValue = newValue;
       } else {
-        const oldValue = _.cloneDeep(newValue);
+        const oldValue = cloneDeep(newValue);
         instance[AttributeMetadata][propertyName] = {
           newValue,
           oldValue,
           converter,
           nested: true,
-          hasDirtyAttributes: !_.isEqual(newValue, oldValue)
+          hasDirtyAttributes: !isEqual(newValue, oldValue)
         };
       }
     };
