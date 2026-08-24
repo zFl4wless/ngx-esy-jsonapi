@@ -182,7 +182,7 @@ describe('JsonApiModel', () => {
           expect(book.date_published.valueOf()).toBe(parseISO(BOOK_PUBLISHED).valueOf());
           expect(book.chapters).toBeDefined();
           expect(book.chapters.length).toBe(CHAPTERS_NUMBER);
-          book.chapters.forEach((chapter: Chapter, cindex: number) => {
+          book.chapters.forEach((chapter: Chapter) => {
             expect(chapter instanceof Chapter).toBeTruthy();
             expect(chapter.title).toBe(CHAPTER_TITLE);
             expect(chapter.book).toEqual(book);
@@ -194,7 +194,6 @@ describe('JsonApiModel', () => {
         it('should return updated relationship', () => {
           const REL = 'books';
           const BOOK_NUMBER = 1;
-          const CHAPTERS_NUMBER = 4;
           const DATA = getAuthorData(REL, BOOK_NUMBER);
           const INCLUDED = getIncludedBooks(BOOK_NUMBER);
           const NEW_BOOK_TITLE = 'The Hobbit';
@@ -218,7 +217,6 @@ describe('JsonApiModel', () => {
       it('should parse the first level of belongsTo relationships', () => {
         const REL = 'books';
         const BOOK_NUMBER = 2;
-        const CHAPTERS_NUMBER = 4;
         const DATA = getAuthorData(REL, BOOK_NUMBER);
         const INCLUDED = getIncludedBooks(BOOK_NUMBER, 'books.chapters,books.firstChapter', 5);
 
@@ -231,7 +229,6 @@ describe('JsonApiModel', () => {
       it('should parse the second level of belongsTo relationships', () => {
         const REL = 'books';
         const BOOK_NUMBER = 2;
-        const CHAPTERS_NUMBER = 4;
         const DATA = getAuthorData(REL, BOOK_NUMBER);
         const INCLUDED = getIncludedBooks(
           BOOK_NUMBER,
@@ -248,7 +245,6 @@ describe('JsonApiModel', () => {
       it('should parse the third level of belongsTo relationships', () => {
         const REL = 'books';
         const BOOK_NUMBER = 2;
-        const CHAPTERS_NUMBER = 4;
         const DATA = getAuthorData(REL, BOOK_NUMBER);
         const INCLUDED = getIncludedBooks(
           BOOK_NUMBER,
@@ -265,7 +261,6 @@ describe('JsonApiModel', () => {
       it('should parse the fourth level of belongsTo relationships', () => {
         const REL = 'books';
         const BOOK_NUMBER = 2;
-        const CHAPTERS_NUMBER = 4;
         const DATA = getAuthorData(REL, BOOK_NUMBER);
         const INCLUDED = getIncludedBooks(
           BOOK_NUMBER,

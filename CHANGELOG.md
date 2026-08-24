@@ -1,3 +1,10 @@
+# [21.0.1]
+
+* Replace undeclared `lodash` imports with tree-shakable `lodash-es` imports
+* Update Angular 21 tooling and runtime dependencies to current patch releases
+* Add reproducible package build, pack, and publish commands
+* Restore a clean lint run by removing stale code and documenting the dynamic `any`-based API
+
 # [21.0.0]
 
 * Makes the library compatible with Angular 21

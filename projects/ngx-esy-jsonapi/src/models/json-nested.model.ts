@@ -24,7 +24,7 @@ export class JsonApiNestedModel {
     return this.transformSerializedNamesToPropertyNames();
   }
 
-  protected transformSerializedNamesToPropertyNames<T extends JsonApiModel>() {
+  protected transformSerializedNamesToPropertyNames<_T extends JsonApiModel>() {
     const serializedNameToPropertyName = this.getModelPropertyNames();
     const properties: any = {};
     Object.keys(serializedNameToPropertyName).forEach((serializedName) => {

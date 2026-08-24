@@ -16,15 +16,6 @@ import { Thing } from '../../test/models/thing';
 import { getSampleThing } from '../../test/fixtures/thing.fixture';
 import { ModelConfig } from '../interfaces/model-config.interface';
 import { JsonApiQueryData } from '../models/json-api-query-data';
-
-
-
-// workaround, see https://github.com/angular/angular/pull/8961
-class MockError extends Response implements Error {
-  name: any;
-  message: any;
-}
-
 describe('JsonApiDatastore', () => {
   let datastore: Datastore;
   let datastoreWithConfig: DatastoreWithConfig;
@@ -71,7 +62,6 @@ describe('JsonApiDatastore', () => {
     });
 
     it('should use apiVersion and modelEnpointUrl from the model instead of datastore if model has apiVersion and/or modelEndpointUrl specified', () => {
-      const authorModelConfig: ModelConfig = Reflect.getMetadata('JsonApiModelConfig', CustomAuthor);
       const expectedUrl = `${BASE_URL_FROM_CONFIG}/${AUTHOR_API_VERSION}/${AUTHOR_MODEL_ENDPOINT_URL}`;
 
       datastoreWithConfig.findAll(CustomAuthor).subscribe();
@@ -220,7 +210,7 @@ describe('JsonApiDatastore', () => {
       };
 
       datastore.findAll(Author).subscribe(
-        (authors) => fail('onNext has been called'),
+        () => fail('onNext has been called'),
         (response) => {
           expect(response).toEqual(jasmine.any(ErrorResponse));
           expect(response.errors.length).toEqual(1);
