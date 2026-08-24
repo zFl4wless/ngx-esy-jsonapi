@@ -9,8 +9,8 @@ import { HasMany } from '../../src/decorators/has-many.decorator';
 })
 export class Thing extends JsonApiModel {
   @Attribute()
-  name: string;
+  name!: string;
 
   @HasMany()
-  categories: ThingCategory[];
+  categories!: ThingCategory[];
 }

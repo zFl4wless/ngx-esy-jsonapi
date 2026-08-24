@@ -2,7 +2,11 @@ import { AttributeDecoratorOptions } from '../interfaces/attribute-decorator-opt
 import { DateConverter } from '../converters/date/date.converter';
 
 export function JsonAttribute(options: AttributeDecoratorOptions = {}): PropertyDecorator {
-  return (target: any, propertyName: string) => {
+  return (target: any, propertyKey: string | symbol) => {
+    if (typeof propertyKey !== 'string') {
+      throw new TypeError('JsonAttribute only supports string property names.');
+    }
+    const propertyName = propertyKey;
     const converter = (dataType: any, value: any, forSerialisation = false): any => {
       let attrConverter;
 
@@ -43,14 +47,14 @@ export function JsonAttribute(options: AttributeDecoratorOptions = {}): Property
       Reflect.defineMetadata('AttributeMapping', mappingMetadata, target);
     };
 
-    const getter = function() {
+    const getter = function(this: any) {
       if (this.nestedDataSerialization) {
         return converter(Reflect.getMetadata('design:type', target, propertyName), this[`_${propertyName}`], true);
       }
       return this[`_${propertyName}`];
     };
 
-    const setter = function(newVal: any) {
+    const setter = function(this: any, newVal: any) {
       const targetType = Reflect.getMetadata('design:type', target, propertyName);
       this[`_${propertyName}`] = converter(targetType, newVal);
     };

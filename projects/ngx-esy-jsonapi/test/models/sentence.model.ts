@@ -9,8 +9,8 @@ import { Paragraph } from './paragraph.model';
 })
 export class Sentence extends JsonApiModel {
   @Attribute()
-  content: string;
+  content!: string;
 
   @BelongsTo()
-  paragraph: Paragraph;
+  paragraph!: Paragraph;
 }

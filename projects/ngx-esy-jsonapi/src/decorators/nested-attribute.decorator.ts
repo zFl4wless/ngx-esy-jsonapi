@@ -3,7 +3,11 @@ import { AttributeDecoratorOptions } from '../interfaces/attribute-decorator-opt
 import { cloneDeep, isEqual } from 'lodash-es';
 
 export function NestedAttribute(options: AttributeDecoratorOptions = {}): PropertyDecorator {
-  return (target: any, propertyName: string) => {
+  return (target: any, propertyKey: string | symbol) => {
+    if (typeof propertyKey !== 'string') {
+      throw new TypeError('NestedAttribute only supports string property names.');
+    }
+    const propertyName = propertyKey;
     const converter = (dataType: any, value: any, forSerialisation = false): any => {
       let attrConverter;
 
@@ -67,11 +71,11 @@ export function NestedAttribute(options: AttributeDecoratorOptions = {}): Proper
       }
     };
 
-    const getter = function() {
+    const getter = function(this: any) {
       return this[`_${propertyName}`];
     };
 
-    const setter = function(newVal: any) {
+    const setter = function(this: any, newVal: any) {
       const targetType = Reflect.getMetadata('design:type', target, propertyName);
       this[`_${propertyName}`] = converter(targetType, newVal);
       updateMetadata(this);

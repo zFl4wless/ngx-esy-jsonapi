@@ -1,5 +1,5 @@
 export class MetaData {
-  page: PageData;
+  page!: PageData;
 }
 
 export interface PageData {

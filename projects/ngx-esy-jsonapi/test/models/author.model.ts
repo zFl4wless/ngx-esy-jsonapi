@@ -14,25 +14,25 @@ import { JsonModelConverter } from '../../src/converters/json-model/json-model.c
 })
 export class Author extends JsonApiModel {
   @Attribute()
-  name: string;
+  name!: string;
 
   @Attribute({
     serializedName: 'dob'
   })
-  date_of_birth: Date;
+  date_of_birth!: Date;
 
   @Attribute()
-  created_at: Date;
+  created_at!: Date;
 
   @Attribute()
-  updated_at: Date;
+  updated_at!: Date;
 
   @Attribute()
-  firstNames: string[];
+  firstNames!: string[];
 
   @HasMany()
-  books: Book[];
+  books!: Book[];
 
   @NestedAttribute({converter: new JsonModelConverter<any>(School)})
-  school: School;
+  school!: School;
 }

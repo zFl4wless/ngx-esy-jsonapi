@@ -11,20 +11,20 @@ import { Section } from './section.model';
 export class Chapter extends JsonApiModel {
 
   @Attribute()
-  title: string;
+  title!: string;
 
   @Attribute()
-  ordering: number;
+  ordering!: number;
 
   @Attribute()
-  created_at: Date;
+  created_at!: Date;
 
   @Attribute()
-  updated_at: Date;
+  updated_at!: Date;
 
   @BelongsTo()
   book: Book | any;
 
   @BelongsTo()
-  firstSection: Section;
+  firstSection!: Section;
 }

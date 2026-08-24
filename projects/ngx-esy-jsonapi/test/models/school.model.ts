@@ -4,11 +4,11 @@ import { JsonAttribute } from '../../src/decorators/json-attribute.decorator';
 export class School extends JsonApiNestedModel {
 
   @JsonAttribute()
-  public name: string;
+  public name!: string;
 
   @JsonAttribute()
-  public students: number;
+  public students!: number;
 
   @JsonAttribute()
-  public foundation: Date;
+  public foundation!: Date;
 }

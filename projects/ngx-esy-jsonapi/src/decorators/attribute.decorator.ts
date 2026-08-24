@@ -4,7 +4,11 @@ import { DateConverter } from '../converters/date/date.converter';
 import { cloneDeep, isEqual } from 'lodash-es';
 
 export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDecorator {
-  return (target: any, propertyName: string) => {
+  return (target: any, propertyKey: string | symbol) => {
+    if (typeof propertyKey !== 'string') {
+      throw new TypeError('Attribute only supports string property names.');
+    }
+    const propertyName = propertyKey;
     const converter = (dataType: any, value: any, forSerialisation = false): any => {
       let attrConverter;
 
@@ -39,11 +43,11 @@ export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDeco
 
     saveAnnotations();
 
-    const getter = function() {
+    const getter = function(this: any) {
       return this[`_${propertyName}`];
     };
 
-    const setter = function(newVal: any) {
+    const setter = function(this: any, newVal: any) {
       const targetType = Reflect.getMetadata('design:type', target, propertyName);
       const convertedValue = converter(targetType, newVal);
 

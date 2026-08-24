@@ -15,12 +15,12 @@ import { HttpHeaders } from '@angular/common/http';
 const AttributeMetadataIndex: string = AttributeMetadata as any;
 
 export class JsonApiModel {
-  id: string;
+  id!: string;
   public modelInitialization = false;
 
   [key: string]: any;
 
-  lastSyncModels: Array<any>;
+  lastSyncModels!: Array<any>;
 
   constructor(private internalDatastore: JsonApiDatastore, data?: any) {
     if (data) {
