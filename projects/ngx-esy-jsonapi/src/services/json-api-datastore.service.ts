@@ -25,8 +25,8 @@ const AttributeMetadataIndex: string = AttributeMetadata as any;
 @Injectable()
 export class JsonApiDatastore {
 
-  protected config: DatastoreConfig;
-  private globalHeaders: HttpHeaders;
+  protected config!: DatastoreConfig;
+  private globalHeaders?: HttpHeaders;
   private globalRequestOptions: object = {};
   private internalStore: { [type: string]: { [id: string]: JsonApiModel } } = {};
   private toQueryString: (params: any) => string = this.datastoreConfig.overrides
@@ -100,7 +100,7 @@ export class JsonApiDatastore {
     const url: string = this.buildUrl(modelType, params, undefined, customUrl);
     const requestOptions: object = this.buildRequestOptions({headers, observe: 'response'});
 
-    return this.http.get(url, requestOptions)
+    return (this.http.get(url, requestOptions) as Observable<HttpResponse<object>>)
       .pipe(
         map((res: HttpResponse<object>) => this.extractQueryData(res, modelType, true)),
         catchError((res: any) => this.handleError(res))
@@ -117,7 +117,7 @@ export class JsonApiDatastore {
     const requestOptions: object = this.buildRequestOptions({headers, observe: 'response'});
     const url: string = this.buildUrl(modelType, params, id, customUrl);
 
-    return this.http.get(url, requestOptions)
+    return (this.http.get(url, requestOptions) as Observable<HttpResponse<object>>)
       .pipe(
         map((res: HttpResponse<object>) => this.extractRecordData(res, modelType)),
         catchError((res: any) => this.handleError(res))
@@ -181,7 +181,7 @@ export class JsonApiDatastore {
     const requestOptions: object = this.buildRequestOptions({headers});
     const url: string = this.buildUrl(modelType, null, id, customUrl);
 
-    return this.http.delete(url, requestOptions)
+    return (this.http.delete(url, requestOptions) as Observable<Response>)
       .pipe(
         catchError((res: HttpErrorResponse) => this.handleError(res))
       );
@@ -332,11 +332,21 @@ export class JsonApiDatastore {
   }
 
   protected extractQueryData<T extends JsonApiModel>(
+    response: object,
+    modelType: ModelType<T>,
+    withMeta?: false
+  ): Array<T>;
+  protected extractQueryData<T extends JsonApiModel>(
     response: HttpResponse<object>,
+    modelType: ModelType<T>,
+    withMeta: true
+  ): JsonApiQueryData<T>;
+  protected extractQueryData<T extends JsonApiModel>(
+    response: object | HttpResponse<object>,
     modelType: ModelType<T>,
     withMeta = false
   ): Array<T> | JsonApiQueryData<T> {
-    const body: any = response.body;
+    const body: any = response instanceof HttpResponse ? response.body : response;
     const models: T[] = [];
 
     body.data.forEach((data: any) => {
@@ -429,18 +439,21 @@ export class JsonApiDatastore {
       'Content-Type': 'application/vnd.api+json'
     });
 
-    if (this.globalHeaders) {
-      this.globalHeaders.keys().forEach((key) => {
-        if (this.globalHeaders.has(key)) {
-          requestHeaders = requestHeaders.set(key, this.globalHeaders.get(key));
+    const globalHeaders = this.globalHeaders;
+    if (globalHeaders) {
+      globalHeaders.keys().forEach((key) => {
+        const value = globalHeaders.get(key);
+        if (value !== null) {
+          requestHeaders = requestHeaders.set(key, value);
         }
       });
     }
 
     if (customHeaders) {
       customHeaders.keys().forEach((key) => {
-        if (customHeaders.has(key)) {
-          requestHeaders = requestHeaders.set(key, customHeaders.get(key));
+        const value = customHeaders.get(key);
+        if (value !== null) {
+          requestHeaders = requestHeaders.set(key, value);
         }
       });
     }
@@ -472,7 +485,7 @@ export class JsonApiDatastore {
       if (relationships.hasOwnProperty(relationship) && model.hasOwnProperty(relationship) && model[relationship]) {
         const relationshipModel: JsonApiModel = model[relationship];
         const hasMany: any[] = Reflect.getMetadata('HasMany', relationshipModel);
-        const propertyHasMany: any = find(hasMany, (property) => {
+        const propertyHasMany: any = find(hasMany, (property: any) => {
           return modelsTypes[property.relationship] === model.constructor;
         });
 

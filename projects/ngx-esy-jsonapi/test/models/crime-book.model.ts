@@ -9,5 +9,5 @@ import { Book } from './book.model';
 export class CrimeBook extends Book {
 
   @Attribute()
-  ageLimit: number;
+  ageLimit!: number;
 }

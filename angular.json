@@ -10,14 +10,14 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "tsConfig": "projects/ngx-esy-jsonapi/tsconfig.lib.json",
             "project": "projects/ngx-esy-jsonapi/ng-package.json"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "projects/ngx-esy-jsonapi/tsconfig.spec.json",
             "polyfills": [

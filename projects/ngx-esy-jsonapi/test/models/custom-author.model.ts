@@ -16,20 +16,20 @@ export const AUTHOR_MODEL_ENDPOINT_URL = 'custom-author';
 })
 export class CustomAuthor extends JsonApiModel {
   @Attribute()
-  name: string;
+  name!: string;
 
   @Attribute()
-  date_of_birth: Date;
+  date_of_birth!: Date;
 
   @Attribute()
-  date_of_death: Date;
+  date_of_death!: Date;
 
   @Attribute()
-  created_at: Date;
+  created_at!: Date;
 
   @Attribute()
-  updated_at: Date;
+  updated_at!: Date;
 
   @HasMany()
-  books: Book[];
+  books!: Book[];
 }

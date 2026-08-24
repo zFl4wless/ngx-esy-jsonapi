@@ -10,10 +10,10 @@ import { Paragraph } from './paragraph.model';
 })
 export class Section extends JsonApiModel {
   @Attribute()
-  content: string;
+  content!: string;
 
   @BelongsTo()
-  firstParagraph: Paragraph;
+  firstParagraph!: Paragraph;
 
   @BelongsTo()
   chapter: Chapter | any;

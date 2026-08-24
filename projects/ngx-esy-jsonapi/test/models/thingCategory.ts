@@ -8,5 +8,5 @@ import { JsonApiModelConfig } from '../../src/decorators/json-api-model-config.d
 })
 export class ThingCategory extends JsonApiModel {
   @HasMany()
-  members: Thing[];
+  members!: Thing[];
 }

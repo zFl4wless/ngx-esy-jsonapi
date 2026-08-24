@@ -1,6 +1,12 @@
 # Angular 2 JSON API
 
-Fork of the [nab-angular2-jsonapi](https://github.com/karwank/nab-angular2-jsonapi) repo. This version is compatible with `Angular 20+`
+Fork of the [nab-angular2-jsonapi](https://github.com/karwank/nab-angular2-jsonapi) repo. The current major version is compatible with `Angular 22`.
+
+| Angular | ngx-esy-jsonapi | npm tag |
+| --- | --- | --- |
+| 22 | `22.x` | `latest` |
+| 21 | `21.x` | `angular21` |
+| 20 | `20.x` | `angular20` |
 
 A lightweight Angular 2 adapter for [JSON API](http://jsonapi.org/)
 

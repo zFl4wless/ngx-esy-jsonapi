@@ -1,3 +1,10 @@
+# [22.0.0]
+
+* Makes the library compatible with Angular 22
+* Updates the build toolchain to Angular CLI 22, ng-packagr 22, Angular ESLint 22, and TypeScript 6
+* Migrates package builds and Karma tests to the modern `@angular/build` builders
+* Migrates ESLint to flat config and updates the source typings required by TypeScript 6
+
 # [21.0.1]
 
 * Replace undeclared `lodash` imports with tree-shakable `lodash-es` imports

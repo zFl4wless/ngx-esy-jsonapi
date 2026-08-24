@@ -10,7 +10,7 @@ import { Section } from './section.model';
 })
 export class Paragraph extends JsonApiModel {
   @Attribute()
-  content: string;
+  content!: string;
 
   @BelongsTo()
   section: Section | any;

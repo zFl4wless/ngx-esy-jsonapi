@@ -1,11 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "es2022",
@@ -21,10 +19,10 @@
     ],
     "paths": {
       "ngx-esy-jsonapi": [
-        "dist/ngx-esy-jsonapi"
+        "./dist/ngx-esy-jsonapi"
       ],
       "ngx-esy-jsonapi/*": [
-        "dist/ngx-esy-jsonapi/*"
+        "./dist/ngx-esy-jsonapi/*"
       ]
     },
     "useDefineForClassFields": false

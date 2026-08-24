@@ -13,29 +13,29 @@ import { BelongsTo } from '../../src/decorators/belongs-to.decorator';
 export class Book extends JsonApiModel {
 
   @Attribute()
-  title: string;
+  title!: string;
 
   @Attribute()
-  date_published: Date;
+  date_published!: Date;
 
   @Attribute()
-  created_at: Date;
+  created_at!: Date;
 
   @Attribute()
-  updated_at: Date;
+  updated_at!: Date;
 
   @HasMany()
-  chapters: Chapter[];
+  chapters!: Chapter[];
 
   @HasMany({key: 'important-chapters'})
-  importantChapters: Chapter[];
+  importantChapters!: Chapter[];
 
   @BelongsTo({key: 'first-chapter'})
-  firstChapter: Chapter;
+  firstChapter!: Chapter;
 
   @BelongsTo()
-  author: Author;
+  author!: Author;
 
   @BelongsTo()
-  category: Category;
+  category!: Category;
 }

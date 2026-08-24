@@ -10,14 +10,14 @@ import { HasMany } from '../../src/decorators/has-many.decorator';
 export class Category extends JsonApiModel {
 
   @Attribute()
-  name: string;
+  name!: string;
 
   @Attribute()
-  created_at: Date;
+  created_at!: Date;
 
   @Attribute()
-  updated_at: Date;
+  updated_at!: Date;
 
   @HasMany()
-  books: Book[];
+  books!: Book[];
 }
