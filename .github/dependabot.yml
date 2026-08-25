@@ -13,6 +13,11 @@ updates:
     open-pull-requests-limit: 5
     commit-message:
       prefix: "chore"
+    ignore:
+      - dependency-name: "@abraham/reflection"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
     groups:
       security-updates:
         applies-to: "security-updates"
