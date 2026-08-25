@@ -39,7 +39,7 @@
     "@types/qs": "^6.15.1",
     "angular-eslint": "^22.1.0",
     "date-fns": "^4.4.0",
-    "eslint": "^9.39.5",
+    "eslint": "^10.9.0",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "^5.4.0",
     "karma": "^6.4.4",
