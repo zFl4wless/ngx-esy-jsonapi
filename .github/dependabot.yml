@@ -1,0 +1,55 @@
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/projects/ngx-esy-jsonapi"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+    groups:
+      security-updates:
+        applies-to: "security-updates"
+        patterns:
+          - "*"
+      angular-toolchain-minor-and-patch:
+        applies-to: "version-updates"
+        patterns:
+          - "@angular*"
+          - "angular-eslint"
+          - "ng-packagr"
+          - "rxjs"
+          - "typescript"
+          - "zone.js"
+        update-types:
+          - "minor"
+          - "patch"
+      angular-toolchain-major:
+        applies-to: "version-updates"
+        patterns:
+          - "@angular*"
+          - "angular-eslint"
+          - "ng-packagr"
+          - "rxjs"
+          - "typescript"
+          - "zone.js"
+        update-types:
+          - "major"
+      development-minor-and-patch:
+        applies-to: "version-updates"
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      production-minor-and-patch:
+        applies-to: "version-updates"
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
