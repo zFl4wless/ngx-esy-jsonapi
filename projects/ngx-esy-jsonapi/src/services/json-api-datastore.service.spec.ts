@@ -107,6 +107,19 @@ describe('JsonApiDatastore', () => {
       queryRequest.flush({data: []});
     });
 
+    it('should serialize query filters with a non-callable constructor.isBuffer property', () => {
+      const expectedUrl = `${BASE_URL}/${API_VERSION}/authors?` +
+        'filter%5Bconstructor%5D%5BisBuffer%5D=true&filter%5Bname%5D=Tolkien';
+
+      datastore.findAll(Author, {
+        filter: {constructor: {isBuffer: true}, name: 'Tolkien'}
+      }).subscribe();
+
+      const queryRequest = httpMock.expectOne({method: 'GET', url: expectedUrl});
+      expect(queryRequest.request.url).toBe(expectedUrl);
+      queryRequest.flush({data: []});
+    });
+
     it('should have custom headers', () => {
       const expectedUrl = `${BASE_URL}/${API_VERSION}/authors`;
 

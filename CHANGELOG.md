@@ -1,3 +1,9 @@
+# [22.0.1]
+
+* Raises the minimum `qs` version to 6.16.0 to include fixes for GHSA-x5fp-wj9c-mxmx and GHSA-4mjr-xmp4-gh2g
+* Adds regression coverage for query filters with a non-callable `constructor.isBuffer` property
+* Updates Angular 22.1 patch releases, Angular ESLint 22.2, zone.js 0.16.3, and development dependencies
+
 # [22.0.0]
 
 * Makes the library compatible with Angular 22
