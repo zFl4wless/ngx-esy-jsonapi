@@ -21,6 +21,10 @@ updates:
       - dependency-name: "jasmine-core"
         update-types:
           - "version-update:semver-major"
+      # Keep Jasmine types aligned with the runtime; Karma and Zone.js require Jasmine 6.
+      - dependency-name: "@types/jasmine"
+        update-types:
+          - "version-update:semver-major"
       - dependency-name: "typescript"
         update-types:
           - "version-update:semver-major"
