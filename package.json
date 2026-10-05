@@ -36,7 +36,7 @@
     "@angular/platform-browser-dynamic": "^22.2.1",
     "@angular/router": "^22.2.1",
     "@eslint/js": "^10.0.1",
-    "@types/jasmine": "^6.0.0",
+    "@types/jasmine": "^7.0.0",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^26.6.4",
     "@types/qs": "^6.15.1",
