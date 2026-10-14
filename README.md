@@ -1,6 +1,12 @@
-# Angular 2 JSON API
+# ngx-esy-jsonapi
 
-Fork of the [nab-angular2-jsonapi](https://github.com/karwank/nab-angular2-jsonapi) repo. The current major version is compatible with `Angular 22`.
+A maintained [JSON:API](https://jsonapi.org/) adapter for Angular. Map resources and relationships to TypeScript models, with CRUD operations, dirty tracking, and rollback.
+
+This project continues the work of [nab-angular2-jsonapi](https://github.com/karwank/nab-angular2-jsonapi), building on the original [angular2-jsonapi](https://github.com/ghidoz/angular2-jsonapi) library, with versioned releases for Angular 20, 21, and 22.
+
+## Angular compatibility
+
+Choose the library major version that matches your Angular application. The current major version supports Angular 22.
 
 | Angular | ngx-esy-jsonapi | npm tag |
 | --- | --- | --- |
@@ -8,10 +14,10 @@ Fork of the [nab-angular2-jsonapi](https://github.com/karwank/nab-angular2-jsona
 | 21 | `21.x` | `angular21` |
 | 20 | `20.x` | `angular20` |
 
-A lightweight Angular 2 adapter for [JSON API](http://jsonapi.org/)
-
 ## Table of Contents
-- [Introduction](#Introduction)
+
+- [Angular compatibility](#angular-compatibility)
+- [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
     - [Configuration](#configuration)
@@ -33,9 +39,12 @@ A lightweight Angular 2 adapter for [JSON API](http://jsonapi.org/)
 - [License](#license)
 
 ## Introduction
-Why this library? Because [JSON API](http://jsonapi.org/) is an awesome standard, but the responses that you get and the way to interact with endpoints are not really easy and directly consumable from Angular.
 
-Moreover, using Angular2 and TypeScript, we like to interact with classes and models, not with bare JSONs. Thanks to this library, you will be able to map all your data into models and relationships like these:
+JSON:API responses describe resources, attributes, and relationships. `ngx-esy-jsonapi` maps those responses to TypeScript model instances so your Angular application can work with connected objects instead of manually resolving raw response data.
+
+Use the datastore to query, create, update, and delete records, load related resources, and access records already in the store. Model instances track attribute changes and let you roll back unsaved changes.
+
+For example, a post and its included comments become models connected through their relationships:
 
 ```javascript
 [
