@@ -38,6 +38,76 @@
           }
         }
       }
+    },
+    "demo": {
+      "projectType": "application",
+      "root": "projects/demo",
+      "sourceRoot": "projects/demo/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/demo",
+            "browser": "projects/demo/src/main.ts",
+            "index": "projects/demo/src/index.html",
+            "tsConfig": "projects/demo/tsconfig.app.json",
+            "styles": [
+              "projects/demo/src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "650kB",
+                  "maximumError": "1MB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "demo:build:development"
+            },
+            "production": {
+              "buildTarget": "demo:build:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/demo/tsconfig.spec.json",
+            "polyfills": [
+              "reflect-metadata",
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "karmaConfig": "projects/ngx-esy-jsonapi/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/demo/**/*.ts",
+              "projects/demo/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

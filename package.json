@@ -6,15 +6,18 @@
     "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
-    "build": "ng build",
+    "build": "ng build ngx-esy-jsonapi",
     "e2e": "ng e2e",
     "lint": "ng lint",
     "ng": "ng",
     "pack:lib": "npm run build && npm pack ./dist/ngx-esy-jsonapi --dry-run",
     "publish:lib": "npm run build && npm publish ./dist/ngx-esy-jsonapi --tag latest",
-    "start": "ng serve",
-    "watch": "ng build --watch",
-    "test": "ng test"
+    "start": "npm run build && ng serve demo",
+    "watch": "ng build ngx-esy-jsonapi --watch",
+    "test": "ng test ngx-esy-jsonapi",
+    "build:demo": "npm run build && ng build demo",
+    "test:ci": "ng test ngx-esy-jsonapi --watch=false --progress=false --browsers=ChromeHeadless --code-coverage",
+    "test:demo": "ng test demo --watch=false --progress=false --browsers=ChromeHeadless"
   },
   "overrides": {
     "qs": "$qs"

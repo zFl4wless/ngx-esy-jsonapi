@@ -1,5 +1,9 @@
 # ngx-esy-jsonapi
 
+[![CI](https://github.com/zFl4wless/ngx-esy-jsonapi/actions/workflows/ci.yml/badge.svg)](https://github.com/zFl4wless/ngx-esy-jsonapi/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/ngx-esy-jsonapi)](https://www.npmjs.com/package/ngx-esy-jsonapi)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/LICENSE)
+
 A maintained [JSON:API](https://jsonapi.org/) adapter for Angular. Map resources and relationships to TypeScript models, with CRUD operations, dirty tracking, and rollback.
 
 This project continues the work of [nab-angular2-jsonapi](https://github.com/karwank/nab-angular2-jsonapi), building on the original [angular2-jsonapi](https://github.com/ghidoz/angular2-jsonapi) library, with versioned releases for Angular 20, 21, and 22.
@@ -14,9 +18,25 @@ Choose the library major version that matches your Angular application. The curr
 | 21 | `21.x` | `angular21` |
 | 20 | `20.x` | `angular20` |
 
+## Try the example
+
+The [interactive Angular example](https://github.com/zFl4wless/ngx-esy-jsonapi/tree/main/projects/demo) demonstrates relationships, CRUD operations, dirty tracking, rollback, and JSON:API errors. A local API simulation makes it runnable without a backend; edits reset when you refresh the page.
+
+From a clone of this repository:
+
+```bash
+npm ci
+npm start
+```
+
+Open `http://localhost:4200`. The example README also describes how to publish the static build on GitHub Pages.
+
+**Migrating from `nab-angular2-jsonapi` or `angular2-jsonapi`?** Start with the [migration guide](https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/docs/MIGRATION.md).
+
 ## Table of Contents
 
 - [Angular compatibility](#angular-compatibility)
+- [Try the example](#try-the-example)
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -35,6 +55,7 @@ Choose the library major version that matches your Angular application. The curr
     - [Error handling](#error-handling)
     - [Dates](#dates)
 - [Development](#development)
+- [Maintenance and contributing](#maintenance-and-contributing)
 - [Additional tools](#additional-tools)
 - [License](#license)
 
@@ -75,7 +96,11 @@ To install this library, run:
 $ npm install ngx-esy-jsonapi --save
 ```
 
-Add the `JsonApiModule` to your app module imports:
+This library uses reflected property types. Keep `experimentalDecorators: true`, `emitDecoratorMetadata: true`, and `useDefineForClassFields: false` in your application TypeScript configuration. Load `reflect-metadata` before your models. See the [migration guide](https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/docs/MIGRATION.md#3-keep-runtime-decorator-metadata) for the configuration and dependency setup.
+
+For a standalone application, register `provideHttpClient()` and your datastore service. The [example bootstrap](https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/projects/demo/src/main.ts) and [datastore](https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/projects/demo/src/app/datastore.ts) show the complete setup. Use your own API URL and omit the example's mock interceptor.
+
+For an NgModule application, add `JsonApiModule` to your app module imports:
 ```typescript
 import { JsonApiModule } from 'ngx-esy-jsonapi';
 
@@ -556,17 +581,33 @@ Moreover, it should be noted that the following assumptions have been made:
 
 ## Development
 
-To generate all `*.js`, `*.js.map` and `*.d.ts` files:
+Use a Node.js version matching `package.json` (Node.js 24.15+ on the 24.x line is recommended for this workspace).
 
 ```bash
-$ npm run build
+npm ci
+npm run build       # build the library package
+npm run lint        # lint the library and example
+npm run test:ci     # library tests in headless Chrome, with coverage
+npm run test:demo   # example integration tests; build the library first
+npm run build:demo  # build the library and production example
+npm start          # build the library and serve the example locally
 ```
 
-To lint all `*.ts` files:
+Browser tests require Chrome or Chromium. Set `CHROME_BIN` if it is not in the usual location.
 
-```bash
-$ npm run lint
-```
+GitHub Actions runs lint, both builds, library tests, example integration tests, and a package contents check on pushes and pull requests. The separate Pages workflow publishes the tested example when manually triggered on `main`.
+
+## Maintenance and contributing
+
+Maintained by [Noah (zFl4wless)](https://github.com/zFl4wless), continuing the work of the upstream authors and contributors.
+
+- The current major targets Angular 22. Angular 20 and 21 releases remain available for compatibility; CI in this branch tests Angular 22.
+- Security updates target the current major. See the [security policy](https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/SECURITY.md) for supported versions and private reporting.
+- For bugs and migration problems, [open an issue](https://github.com/zFl4wless/ngx-esy-jsonapi/issues) with your Angular/library versions, reproduction steps, and expected behavior.
+- Documentation improvements, minimal reproductions, and fixes with regression coverage are welcome. Include the relevant local checks with your pull request.
+- Browse the [releases](https://github.com/zFl4wless/ngx-esy-jsonapi/releases) and [changelog](https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/CHANGELOG.md) for version history.
+
+If this library is useful to you, consider starring the repository to help others discover it.
 
 ## Additional tools
 * Gem for generating the model definitions based on active model serializers: https://github.com/oncore-education/jsonapi_models
@@ -577,4 +618,4 @@ This library is inspired by the draft of [this never implemented library](https:
 
 ## License
 
-MIT
+[MIT](https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/LICENSE), with attribution to Daniele Ghidoli, KarwanK, Noah (zFl4wless), and contributors. The license is included in the published package.
