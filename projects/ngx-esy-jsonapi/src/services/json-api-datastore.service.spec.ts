@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { parseISO } from 'date-fns';
 import { Author } from '../../test/models/author.model';
@@ -16,6 +17,7 @@ import { Thing } from '../../test/models/thing';
 import { getSampleThing } from '../../test/fixtures/thing.fixture';
 import { ModelConfig } from '../interfaces/model-config.interface';
 import { JsonApiQueryData } from '../models/json-api-query-data';
+import { firstValueFrom } from 'rxjs';
 describe('JsonApiDatastore', () => {
   let datastore: Datastore;
   let datastoreWithConfig: DatastoreWithConfig;
@@ -210,7 +212,7 @@ describe('JsonApiDatastore', () => {
       queryRequest.flush(getSampleThing());
     });
 
-    it('should fire error', () => {
+    it('should fire error', async () => {
       const expectedUrl = `${BASE_URL}/${API_VERSION}/authors`;
       const dummyResponse = {
         errors: [
@@ -222,20 +224,13 @@ describe('JsonApiDatastore', () => {
         ]
       };
 
-      datastore.findAll(Author).subscribe(
-        () => fail('onNext has been called'),
-        (response) => {
-          expect(response).toEqual(jasmine.any(ErrorResponse));
-          expect(response.errors.length).toEqual(1);
-          expect(response.errors[0].code).toEqual(dummyResponse.errors[0].code);
-          expect(response.errors[0].title).toEqual(dummyResponse.errors[0].title);
-          expect(response.errors[0].detail).toEqual(dummyResponse.errors[0].detail);
-        },
-        () => fail('onCompleted has been called')
-      );
+      const response = firstValueFrom(datastore.findAll(Author));
+      const rejection = expect(response).rejects.toMatchObject(dummyResponse);
 
       const queryRequest = httpMock.expectOne(expectedUrl);
       queryRequest.flush(dummyResponse, {status: 500, statusText: 'Internal Server Error'});
+      await rejection;
+      await expect(response).rejects.toBeInstanceOf(ErrorResponse);
     });
 
     it('should generate correct query string for array params with findAll', () => {
@@ -338,34 +333,30 @@ describe('JsonApiDatastore', () => {
       }, {status: 201, statusText: 'Created'});
     });
 
-    it('should throw error on new author with 201 response but no body', () => {
+    it('should throw error on new author with 201 response but no body', async () => {
       const expectedUrl = `${BASE_URL}/${API_VERSION}/authors`;
       const author = datastore.createRecord(Author, {
         name: AUTHOR_NAME
       });
 
-      author.save().subscribe(
-        () => fail('should throw error'),
-        (error) => expect(error).toEqual(new Error('no body in response'))
-      );
+      const rejection = expect(firstValueFrom(author.save())).rejects.toEqual(new Error('no body in response'));
 
       const saveRequest = httpMock.expectOne({method: 'POST', url: expectedUrl});
       saveRequest.flush(null, {status: 201, statusText: 'Created'});
+      await rejection;
     });
 
-    it('should throw error on new author with 201 response but no data', () => {
+    it('should throw error on new author with 201 response but no data', async () => {
       const expectedUrl = `${BASE_URL}/${API_VERSION}/authors`;
       const author = datastore.createRecord(Author, {
         name: AUTHOR_NAME
       });
 
-      author.save().subscribe(
-        () => fail('should throw error'),
-        (error) => expect(error).toEqual(new Error('expected data in response'))
-      );
+      const rejection = expect(firstValueFrom(author.save())).rejects.toEqual(new Error('expected data in response'));
 
       const saveRequest = httpMock.expectOne({method: 'POST', url: expectedUrl});
       saveRequest.flush({}, {status: 201, statusText: 'Created'});
+      await rejection;
     });
 
     it('should create new author with 204 response', () => {

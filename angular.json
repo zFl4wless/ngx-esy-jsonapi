@@ -17,15 +17,14 @@
           }
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
+            "buildTarget": "ngx-esy-jsonapi:build",
             "tsConfig": "projects/ngx-esy-jsonapi/tsconfig.spec.json",
-            "polyfills": [
-              "reflect-metadata",
-              "zone.js",
-              "zone.js/testing"
+            "setupFiles": [
+              "projects/ngx-esy-jsonapi/test/setup.ts"
             ],
-            "karmaConfig": "projects/ngx-esy-jsonapi/karma.conf.js"
+            "coverageReporters": ["lcov", "text-summary"]
           }
         },
         "lint": {
