@@ -556,6 +556,18 @@ Moreover, it should be noted that the following assumptions have been made:
 
 ## Development
 
+To run the unit tests once with Vitest and jsdom (no browser installation required):
+
+```bash
+$ npm test -- --watch=false
+```
+
+To generate coverage reports in `coverage/ngx-esy-jsonapi`:
+
+```bash
+$ npm test -- --watch=false --coverage
+```
+
 To generate all `*.js`, `*.js.map` and `*.d.ts` files:
 
 ```bash

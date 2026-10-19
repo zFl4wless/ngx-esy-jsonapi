@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from 'vitest';
 import { JsonModelConverter } from './json-model.converter';
 import { School } from '../../../test/models/school.model';
 
@@ -88,9 +89,9 @@ describe('JsonModel converter', () => {
       it('should instance of School with data when provided initial data', () => {
         const DATA = {name: 'Massachusetts Institute of Technology', students: 11319, foundation: '1861-10-04'};
         const result: School = converter.mask(DATA);
-        expect(result.name).toBeTruthy(DATA.name);
-        expect(result.students).toBeTruthy(DATA.students);
-        expect(result.foundation).toBeTruthy(new Date(DATA.foundation));
+        expect(result.name).toBe(DATA.name);
+        expect(result.students).toBe(DATA.students);
+        expect(result.foundation).toEqual(new Date(1861, 9, 4));
       });
     });
 
