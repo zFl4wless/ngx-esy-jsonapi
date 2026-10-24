@@ -1,3 +1,9 @@
+# [Unreleased]
+
+* Overrides the development-only Vite dependency to the patched 8.3.x line (minimum 8.3.5), fixing GHSA-587h-7wmj-h5pm, GHSA-r825-w8mm-5pxw, and GHSA-698v-4r3x-3vcv
+* Keeps the override while `@angular/build` pins vulnerable Vite 8.3.0; it can be removed once Angular's build tooling requires Vite 8.3.3 or newer
+* Updates the development-only `fast-uri` dependency to 3.1.9 to fix URI parsing and normalization vulnerabilities
+
 # [22.0.2]
 
 * Raises the minimum `qs` version to 6.16.1 to include query parsing and serialization fixes
