@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/demo",
+    "types": [],
+    "strict": true
+  },
+  "files": ["src/main.ts"],
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  }
+}

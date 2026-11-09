@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Build, lint, and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Check synchronized package documentation
+        run: |
+          cmp README.md projects/ngx-esy-jsonapi/README.md
+          cmp LICENSE projects/ngx-esy-jsonapi/LICENSE
+      - run: npm run lint
+      - run: npm run build:demo -- --base-href /ngx-esy-jsonapi/
+      - run: npm run test:ci
+      - run: npm run test:demo
+      - name: Check package contents
+        run: npm pack ./dist/ngx-esy-jsonapi --dry-run

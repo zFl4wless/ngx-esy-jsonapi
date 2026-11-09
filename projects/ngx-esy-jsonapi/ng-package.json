@@ -10,5 +10,8 @@
     "qs",
     "reflect-metadata",
     "tslib"
+  ],
+  "assets": [
+    "LICENSE"
   ]
 }

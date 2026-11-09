@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ngx-esy-jsonapi playground</title>
+    <meta name="description" content="Try JSON:API models, relationships, CRUD, and rollback with ngx-esy-jsonapi for Angular. No backend required.">
+    <base href="/">
+    <script>
+      let theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      try {
+        const saved = localStorage.getItem('ngx-esy-jsonapi-theme');
+        if (saved === 'light' || saved === 'dark') theme = saved;
+      } catch {
+        // Use the system preference when storage is unavailable.
+      }
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23245bcc'/%3E%3Ctext x='16' y='22' font-size='19' font-family='monospace' text-anchor='middle' fill='white'%3E%7B%7D%3C/text%3E%3C/svg%3E">
+  </head>
+  <body>
+    <lib-demo></lib-demo>
+  </body>
+</html>

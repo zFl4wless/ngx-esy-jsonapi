@@ -1,5 +1,9 @@
 # [Unreleased]
 
+* Adds an interactive Angular playground with HTTP inspection, code examples, and light and dark themes
+* Adds migration and maintenance documentation and includes the MIT license in package builds
+* Adds CI for the library and demo and a manual GitHub Pages deployment workflow
+
 # [22.0.3]
 
 * Raises the minimum `qs` version to 6.17.1 to include query parsing and serialization fixes
