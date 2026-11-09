@@ -20,7 +20,7 @@ Choose the library major version that matches your Angular application. The curr
 
 ## Try the example
 
-The [interactive Angular example](https://github.com/zFl4wless/ngx-esy-jsonapi/tree/main/projects/demo) demonstrates relationships, CRUD operations, dirty tracking, rollback, and JSON:API errors. A local API simulation makes it runnable without a backend; edits reset when you refresh the page.
+[Open the live playground](https://zfl4wless.github.io/ngx-esy-jsonapi/) to try relationships, CRUD operations, dirty tracking, rollback, and JSON:API errors. The playground uses a local API simulation and resets edits when you refresh the page. [Example source](https://github.com/zFl4wless/ngx-esy-jsonapi/tree/main/projects/demo)
 
 From a clone of this repository:
 
