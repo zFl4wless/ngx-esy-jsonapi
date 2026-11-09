@@ -1,6 +1,6 @@
 {
   "name": "ngx-esy-jsonapi",
-  "version": "22.0.3",
+  "version": "22.0.4",
   "description": "A lightweight Angular adapter for JSON API (Angular 22)",
   "repository": {
     "type": "git",
