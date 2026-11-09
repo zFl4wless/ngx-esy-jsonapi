@@ -1,8 +1,11 @@
 # [Unreleased]
 
-* Adds an interactive Angular playground with HTTP inspection, code examples, and light and dark themes
+# [22.0.4]
+
+* Links to the [live Angular playground](https://zfl4wless.github.io/ngx-esy-jsonapi/) with HTTP inspection, code examples, and light and dark themes
 * Adds migration and maintenance documentation and includes the MIT license in package builds
 * Adds CI for the library and demo and a manual GitHub Pages deployment workflow
+* Updates the build and test dependencies through #43, #44, and #45
 
 # [22.0.3]
 
