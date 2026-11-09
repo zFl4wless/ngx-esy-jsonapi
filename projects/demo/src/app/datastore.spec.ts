@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
@@ -23,15 +24,15 @@ describe('Example datastore with the local JSON:API', () => {
     const document = await firstValueFrom(datastore.findAll(Post, { include: 'comments' }));
     const post = document.getModels()[0];
     const title = post.title;
-    expect(post instanceof Post).toBeTrue();
-    expect(post.comments[0] instanceof Comment).toBeTrue();
+    expect(post instanceof Post).toBe(true);
+    expect(post.comments[0] instanceof Comment).toBe(true);
     expect(post.comments.length).toBe(2);
-    expect(post.hasDirtyAttributes).toBeFalse();
+    expect(post.hasDirtyAttributes).toBe(false);
     post.title = 'Unsaved title';
-    expect(post.hasDirtyAttributes).toBeTrue();
+    expect(post.hasDirtyAttributes).toBe(true);
     post.rollbackAttributes();
     expect(post.title).toBe(title);
-    expect(post.hasDirtyAttributes).toBeFalse();
+    expect(post.hasDirtyAttributes).toBe(false);
     expect(api.exchanges().length).toBe(1);
   });
 
@@ -42,7 +43,7 @@ describe('Example datastore with the local JSON:API', () => {
     const exchange = api.exchanges()[0];
     expect(exchange.method).toBe('PATCH');
     expect(JSON.parse(exchange.request).data.attributes).toEqual({ title: 'Saved title' });
-    expect(post.hasDirtyAttributes).toBeFalse();
+    expect(post.hasDirtyAttributes).toBe(false);
     post.title = 'Another change';
     post.rollbackAttributes();
     expect(post.title).toBe('Saved title');
@@ -58,12 +59,12 @@ describe('Example datastore with the local JSON:API', () => {
     expect(api.exchanges()[0].status).toBe(201);
     expect(api.exchanges()[0].method).toBe('POST');
     expect(post.id).toBeTruthy();
-    expect(post.hasDirtyAttributes).toBeFalse();
+    expect(post.hasDirtyAttributes).toBe(false);
     await firstValueFrom(datastore.deleteRecord(Post, post.id));
     expect(api.exchanges()[0].status).toBe(204);
     expect(api.exchanges()[0].method).toBe('DELETE');
     const document = await firstValueFrom(datastore.findAll(Post));
-    expect(document.getModels().some(item => item.id === post.id)).toBeFalse();
+    expect(document.getModels().some(item => item.id === post.id)).toBe(false);
   });
 
   it('exposes JSON:API validation errors and preserves unsaved changes', async () => {
@@ -71,12 +72,12 @@ describe('Example datastore with the local JSON:API', () => {
     post.title = '';
     try {
       await firstValueFrom(post.save());
-      fail('Expected a validation error');
+      throw new Error('Expected a validation error');
     } catch (error) {
-      expect(error instanceof ErrorResponse).toBeTrue();
+      expect(error instanceof ErrorResponse).toBe(true);
     }
     expect(api.exchanges()[0].status).toBe(422);
-    expect(post.hasDirtyAttributes).toBeTrue();
+    expect(post.hasDirtyAttributes).toBe(true);
     post.rollbackAttributes();
     expect(post.title).not.toBe('');
   });

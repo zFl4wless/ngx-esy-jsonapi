@@ -1,3 +1,22 @@
+# [Unreleased]
+
+* Adds an interactive Angular playground with HTTP inspection, code examples, and light and dark themes
+* Adds migration and maintenance documentation and includes the MIT license in package builds
+* Adds CI for the library and demo and a manual GitHub Pages deployment workflow
+
+# [22.0.3]
+
+* Raises the minimum `qs` version to 6.17.1 to include query parsing and serialization fixes
+* Updates Angular to 22.2.4, Angular CLI/build and ng-packagr to 22.2.5, and development dependencies through #40 and #41
+* Removes the Vite override now that Angular build tooling requires the patched 8.3.5 release
+* Replaces the development-only Karma test runner with Vitest and updates `fast-uri` to 3.1.9
+
+# [22.0.2]
+
+* Raises the minimum `qs` version to 6.16.1 to include query parsing and serialization fixes
+* Updates Angular to 22.2.3, Angular ESLint to 22.6.0, and development dependencies
+* Updates the package README with the project name and Angular compatibility matrix
+
 # [22.0.1]
 
 * Raises the minimum `qs` version to 6.16.0 to include fixes for GHSA-x5fp-wj9c-mxmx and GHSA-4mjr-xmp4-gh2g

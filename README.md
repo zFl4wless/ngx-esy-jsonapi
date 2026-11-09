@@ -587,13 +587,13 @@ Use a Node.js version matching `package.json` (Node.js 24.15+ on the 24.x line i
 npm ci
 npm run build       # build the library package
 npm run lint        # lint the library and example
-npm run test:ci     # library tests in headless Chrome, with coverage
+npm run test:ci     # library tests with coverage
 npm run test:demo   # example integration tests; build the library first
 npm run build:demo  # build the library and production example
 npm start          # build the library and serve the example locally
 ```
 
-Browser tests require Chrome or Chromium. Set `CHROME_BIN` if it is not in the usual location.
+Tests run with Vitest and jsdom. Coverage reports are written to `coverage/ngx-esy-jsonapi`.
 
 GitHub Actions runs lint, both builds, library tests, example integration tests, and a package contents check on pushes and pull requests. The separate Pages workflow publishes the tested example when manually triggered on `main`.
 

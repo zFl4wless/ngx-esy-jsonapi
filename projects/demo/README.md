@@ -24,13 +24,17 @@ The deployable files are in `dist/demo/browser`.
 
 ## Try it
 
-1. Select a post and inspect its included comments.
+1. Choose a post from the dropdown and inspect its included comments.
 2. Edit its title or body: the status becomes **Unsaved changes**.
 3. Click **Rollback**: attributes revert without an API request.
 4. Edit again and click **Save post**: inspect the PATCH request and its dirty attributes.
 5. Click **New post**, then save it: POST returns a server-assigned ID.
 6. Delete a saved post: DELETE returns 204.
 7. Save an empty title to see a JSON:API validation error; rollback still works.
+
+The inspector shows the latest HTTP exchange. Use the request history dropdown to revisit earlier exchanges, and switch between Request, Response, and Library code.
+
+The theme button switches between light and dark mode. Your choice is saved in this browser; the initial theme follows your system preference.
 
 Switching posts or reloading the list discards unsaved edits. All data lives in
 memory and resets on a full page refresh. Requests shown in the UI are simulated
