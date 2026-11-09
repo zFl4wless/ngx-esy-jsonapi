@@ -1,83 +1,84 @@
 <main>
   <header class="topbar">
-    <a class="brand" href="https://github.com/zFl4wless/ngx-esy-jsonapi">ngx-esy-jsonapi</a>
+    <h1>ngx-esy-jsonapi</h1>
+    <span class="subtitle">Angular JSON:API playground</span>
     <nav aria-label="Project links">
-      <a href="https://github.com/zFl4wless/ngx-esy-jsonapi#usage">Documentation ↗</a>
-      <a href="https://github.com/zFl4wless/ngx-esy-jsonapi/tree/main/projects/demo">Example source ↗</a>
-      <a class="github" href="https://github.com/zFl4wless/ngx-esy-jsonapi">Star on GitHub ☆</a>
+      <a href="https://www.npmjs.com/package/ngx-esy-jsonapi" target="_blank" rel="noopener noreferrer">npm</a>
+      <a href="https://github.com/zFl4wless/ngx-esy-jsonapi#usage" target="_blank" rel="noopener noreferrer">Docs</a>
+      <a href="https://github.com/zFl4wless/ngx-esy-jsonapi" target="_blank" rel="noopener noreferrer">GitHub</a>
     </nav>
+    <button class="theme-toggle" type="button" (click)="toggleTheme()" [attr.aria-pressed]="darkMode()" aria-label="Dark mode">
+      {{ darkMode() ? 'Light mode' : 'Dark mode' }}
+    </button>
   </header>
-
-  <section class="intro" aria-labelledby="intro-title">
-    <p class="eyebrow">ANGULAR + JSON:API · INTERACTIVE EXAMPLE</p>
-    <h1 id="intro-title">Your API data.<br>Ready to work with.</h1>
-    <p class="lead">Turn resources and relationships into TypeScript models.<br>Edit a post below and see what the library does for you.</p>
-    <p class="notice">A local API simulation powers this example. No backend or account needed.<br>Changes last until you refresh the page.</p>
-  </section>
-
+  <p class="instruction">Edit a title, then save. See the PATCH request in the inspector.</p>
   <div class="workspace">
-    <section class="panel" aria-labelledby="posts-title">
-      <div class="panel-heading">
-        <div><p class="eyebrow">01 / MODELS</p><h2 id="posts-title">Posts & comments</h2></div>
-        <button type="button" (click)="reload()" [disabled]="busy()">Reload posts</button>
+    <section class="editor-pane" aria-labelledby="posts-heading">
+      <h2 id="posts-heading">Posts</h2>
+      <div class="post-toolbar">
+        <select aria-label="Choose a post" [ngModel]="selected()" (ngModelChange)="select($event)" [disabled]="busy() || !posts().length">
+          @if (!selected()?.id) { <option [ngValue]="selected()">{{ selected() ? 'New draft' : 'No posts' }}</option> }
+          @for (post of posts(); track post.id) { <option [ngValue]="post">{{ post.title }} (#{{ post.id }})</option> }
+        </select>
+        <button type="button" (click)="create()" [disabled]="busy()">New post</button>
+        <button type="button" (click)="reload()" [disabled]="busy()">Reload</button>
       </div>
-      <div class="post-list" aria-label="Choose a post">
-        @for (post of posts(); track post.id) {
-          <button type="button" class="post-button" [class.active]="selected() === post"
-            [attr.aria-pressed]="selected() === post" [disabled]="busy()" (click)="select(post)">
-            <span class="post-id">#{{ post.id }}</span><span>{{ post.title }}</span>
-          </button>
-        } @empty {
-          <p class="empty">{{ busy() ? 'Loading posts…' : 'No posts yet. Create your first one below.' }}</p>
-        }
-      </div>
-      <button type="button" class="new-post" (click)="create()" [disabled]="busy()">+ New post</button>
-
       @if (selected(); as post) {
         <div class="editor">
-          <div class="editor-heading">
-            <h3>{{ post.id ? 'Edit post #' + post.id : 'New post' }}</h3>
-            <span class="status" [class.dirty]="post.hasDirtyAttributes">{{ !post.id ? 'New draft' : post.hasDirtyAttributes ? 'Unsaved changes' : 'Saved' }}</span>
-          </div>
           <label for="post-title">Title</label>
           <input id="post-title" [(ngModel)]="post.title" (ngModelChange)="clearFeedback()" [disabled]="busy()" autocomplete="off">
           <label for="post-body">Body</label>
-          <textarea id="post-body" [(ngModel)]="post.body" (ngModelChange)="clearFeedback()" [disabled]="busy()" rows="3"></textarea>
+          <textarea id="post-body" [(ngModel)]="post.body" (ngModelChange)="clearFeedback()" [disabled]="busy()" rows="4"></textarea>
           <div class="actions">
-            <button type="button" class="primary" (click)="save()" [disabled]="busy() || (!!post.id && !post.hasDirtyAttributes)">{{ busy() ? 'Working…' : 'Save post' }}</button>
+            <span class="status" [class.dirty]="post.hasDirtyAttributes">{{ !post.id ? 'New draft' : post.hasDirtyAttributes ? 'Unsaved changes' : 'Saved' }}</span>
+            <button type="button" class="primary" (click)="save()" [disabled]="busy() || (!!post.id && !post.hasDirtyAttributes)">{{ busy() ? 'Saving…' : 'Save post' }}</button>
             <button type="button" (click)="rollback()" [disabled]="busy() || !post.id || !post.hasDirtyAttributes">Rollback</button>
             <button type="button" class="danger" (click)="remove()" [disabled]="busy() || !post.id">Delete</button>
           </div>
-          <div class="comments">
-            <h3>Included comments <span class="count">{{ post.comments.length }}</span></h3>
+          <div class="feedback" aria-live="polite">{{ message() }}</div>
+          @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+          <section class="comments" aria-labelledby="comments-heading">
+            <h3 id="comments-heading">Included comments <span>{{ post.comments.length }}</span></h3>
             @for (comment of post.comments; track comment.id) {
-              <p>{{ comment.body }}</p>
-            } @empty {
-              <p class="empty">This post has no comments.</p>
-            }
-          </div>
+              <p><code>#{{ comment.id }}</code>{{ comment.body }}</p>
+            } @empty { <p class="muted">This post has no comments.</p> }
+          </section>
+          <p class="hint">Try an empty title to see a validation error. Edit and roll back to undo locally.</p>
         </div>
+      } @else {
+        <p class="hint">{{ busy() ? 'Loading posts…' : 'Create a post to try saving a new record.' }}</p>
+        <p role="status">{{ message() }}</p>
+        @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
       }
-      <p class="feedback" role="status">{{ message() }}</p>
-      @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+      <p class="switch-note">Switching posts or reloading discards unsaved edits.</p>
     </section>
-
-    <section class="panel exchanges" aria-labelledby="requests-title">
-      <div class="panel-heading"><div><p class="eyebrow">02 / JSON:API</p><h2 id="requests-title">Under the hood</h2></div><span class="simulation">Simulated API</span></div>
-      <p class="hint">The actual library creates each request and maps the response. Rollback happens locally.</p>
-      @for (exchange of api.exchanges(); track exchange; let first = $first) {
-        <details [open]="first">
-          <summary><span class="method">{{ exchange.method }}</span><span class="request-url">{{ exchange.url }}</span><span class="http-status">{{ exchange.status }}</span></summary>
-          <h3>Request body</h3><pre>{{ exchange.request }}</pre>
-          <h3>Response body</h3><pre>{{ exchange.response }}</pre>
-        </details>
+    <section class="inspector-pane" aria-labelledby="inspector-heading">
+      <h2 id="inspector-heading">Inspector</h2>
+      <div class="tabs" aria-label="Inspector view">
+        <button type="button" [class.active]="inspector() === 'http'" [attr.aria-pressed]="inspector() === 'http'" (click)="inspector.set('http')">HTTP</button>
+        <button type="button" [class.active]="inspector() === 'code'" [attr.aria-pressed]="inspector() === 'code'" (click)="inspector.set('code')">Library code</button>
+      </div>
+      @if (inspector() === 'http') {
+        @if (exchange(); as current) {
+          <div class="request-toolbar">
+            <select aria-label="Request history" [ngModel]="exchange()" (ngModelChange)="inspectedExchange.set($event)">
+              @for (item of api.exchanges(); track item; let first = $first) {
+                <option [ngValue]="item">{{ first ? 'Latest: ' : '' }}{{ item.method }} {{ item.url }}</option>
+              }
+            </select>
+            <span class="http-status" [class.failed]="current.status >= 400" aria-label="HTTP status">{{ current.status }}</span>
+          </div>
+          <div class="tabs payload-tabs" aria-label="HTTP payload">
+            <button type="button" [class.active]="payload() === 'response'" [attr.aria-pressed]="payload() === 'response'" (click)="payload.set('response')">Response</button>
+            <button type="button" [class.active]="payload() === 'request'" [attr.aria-pressed]="payload() === 'request'" (click)="payload.set('request')">Request</button>
+          </div>
+          <pre class="payload" tabindex="0" [attr.aria-label]="payload() + ' body'"><code>@for (token of tokens(); track $index) {<span [class]="token.kind">{{ token.text }}</span>}</code></pre>
+        } @else { <p class="hint">Requests will appear here when you load or save a post.</p> }
+      } @else {
+        <p class="code-intro">These are the library calls behind the editor. <a href="https://github.com/zFl4wless/ngx-esy-jsonapi/tree/feat/demo-and-maintenance/projects/demo" target="_blank" rel="noopener noreferrer">View example source</a></p>
+        <pre class="payload" tabindex="0" aria-label="Library code examples"><code>@for (token of codeTokens; track $index) {<span [class]="token.kind">{{ token.text }}</span>}</code></pre>
       }
     </section>
   </div>
-
-  <section class="getting-started" aria-labelledby="start-title">
-    <div><p class="eyebrow">FROM RESPONSE TO RELATIONSHIP</p><h2 id="start-title">A few lines to get started.</h2><p>Define your models, register them in a datastore,<br>and let JSON:API relationships connect the data.</p><a href="https://github.com/zFl4wless/ngx-esy-jsonapi#installation">Install & configure →</a></div>
-    <pre>{{ snippet }}</pre>
-  </section>
-  <footer>ngx-esy-jsonapi · Maintained JSON:API adapter for Angular · <a href="https://github.com/zFl4wless/ngx-esy-jsonapi/blob/main/LICENSE">MIT license</a></footer>
+  <footer><span>Local API simulation. Refresh to reset.</span><span class="footer-links"><a href="https://github.com/zFl4wless/ngx-esy-jsonapi/blob/feat/demo-and-maintenance/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a><span>Angular 22</span></span></footer>
 </main>

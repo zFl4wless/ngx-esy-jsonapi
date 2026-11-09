@@ -1,10 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { finalize, Observable } from 'rxjs';
 import { ErrorResponse } from 'ngx-esy-jsonapi';
 import { Datastore } from './datastore';
-import { DemoApi } from './demo-api';
+import { DemoApi, Exchange } from './demo-api';
 import { Post } from './models';
+import { highlight } from './highlight';
 
 @Component({
   selector: 'lib-demo',
@@ -19,11 +20,57 @@ export class DemoComponent {
   readonly busy = signal(false);
   readonly error = signal('');
   readonly message = signal('');
-  readonly snippet = `datastore.findAll(Post, { include: 'comments' })
+  readonly inspector = signal<'http' | 'code'>('http');
+  readonly payload = signal<'request' | 'response'>('response');
+  readonly inspectedExchange = signal<Exchange | null>(null);
+  readonly exchange = computed(() => this.inspectedExchange() ?? this.api.exchanges()[0]);
+  readonly tokens = computed(() => {
+    const exchange = this.exchange();
+    const text = exchange?.[this.payload()] ?? 'No requests yet.';
+    return highlight(text, 'json');
+  });
+  readonly snippet = `// Load posts and map their included comments to models.
+datastore.findAll(Post, { include: 'comments' })
   .subscribe(document => {
     const posts = document.getModels();
-    console.log(posts[0].comments);
-  });`;
+    const post = posts[0];
+    console.log(post.comments);
+
+    // Only changed attributes are sent.
+    post.title = 'An updated title';
+    post.hasDirtyAttributes; // true
+    post.save({ include: 'comments' }).subscribe(saved => {
+      console.log(saved.hasDirtyAttributes); // false
+
+      // Undo another edit locally, without an HTTP request.
+      saved.title = 'An unsaved change';
+      saved.rollbackAttributes();
+    });
+  });
+
+// Create a record. The API supplies its ID.
+const draft = datastore.createRecord(Post, {
+  title: 'New post', body: 'Hello from Angular.'
+});
+draft.save().subscribe(saved => console.log(saved.id));
+
+// Delete a saved record by its ID.
+datastore.deleteRecord(Post, '1').subscribe();`;
+
+  readonly codeTokens = highlight(this.snippet, 'typescript');
+  readonly darkMode = signal(document.documentElement.dataset['theme'] === 'dark');
+
+  toggleTheme(): void {
+    const theme = this.darkMode() ? 'light' : 'dark';
+    this.darkMode.set(theme === 'dark');
+    document.documentElement.dataset['theme'] = theme;
+    document.documentElement.style.colorScheme = theme;
+    try {
+      localStorage.setItem('ngx-esy-jsonapi-theme', theme);
+    } catch {
+      // Theme switching also works when browser storage is unavailable.
+    }
+  }
 
   constructor() {
     this.reload();
@@ -48,7 +95,7 @@ export class DemoComponent {
 
   create(): void {
     this.selected()?.rollbackAttributes();
-    const post = this.datastore.createRecord(Post, { title: 'A new idea', body: 'Write something worth sharing.' });
+    const post = this.datastore.createRecord(Post, { title: 'New post', body: 'Hello from Angular.' });
     post.comments = [];
     this.selected.set(post);
     this.error.set('');
@@ -90,6 +137,9 @@ export class DemoComponent {
   }
 
   private run<T>(operation: Observable<T>, success: (value: T) => void): void {
+    this.inspectedExchange.set(null);
+    this.inspector.set('http');
+    this.payload.set('response');
     this.busy.set(true);
     this.clearFeedback();
     operation.pipe(finalize(() => this.busy.set(false))).subscribe({

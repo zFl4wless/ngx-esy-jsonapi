@@ -26,12 +26,12 @@ export class DemoApi {
   private readonly posts: Resource[] = [
     {
       type: 'posts', id: '1',
-      attributes: { title: 'Less plumbing. More building.', body: 'Load a JSON:API response and work with connected TypeScript models.' },
+      attributes: { title: 'My first post', body: 'An example post with two included comments.' },
       relationships: { comments: { data: [{ type: 'comments', id: '1' }, { type: 'comments', id: '2' }] } },
     },
     {
       type: 'posts', id: '2',
-      attributes: { title: 'Try a change, then roll it back.', body: 'Edit this post to see dirty tracking. Save sends a PATCH; rollback makes no API request.' },
+      attributes: { title: 'Another post', body: 'Edit this post to see dirty tracking. Save sends a PATCH; rollback makes no API request.' },
       relationships: { comments: { data: [] } },
     },
   ];
