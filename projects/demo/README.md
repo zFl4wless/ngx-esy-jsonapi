@@ -3,6 +3,8 @@
 A standalone Angular 22 application using the **built library package** through
 the `ngx-esy-jsonapi` public entry point.
 
+[Open the live playground](https://zfl4wless.github.io/ngx-esy-jsonapi/).
+
 ## Run locally
 
 From the repository root, with Node.js 24.15 or newer on the 24.x line:
@@ -60,14 +62,6 @@ The `Demo on GitHub Pages` workflow builds and tests the application before
 uploading `dist/demo/browser`. It sets the base URL to `/ngx-esy-jsonapi/` so
 assets work under the repository's Pages path.
 
-After these files are on `main`:
-
-1. In repository **Settings → Pages → Build and deployment**, set **Source**
-   to **GitHub Actions**.
-2. Under **Actions → Demo on GitHub Pages**, choose **Run workflow** on `main`.
-3. Wait for the deployment to finish. The workflow reports the deployed URL,
-   expected to be `https://zfl4wless.github.io/ngx-esy-jsonapi/`.
-
-Deployment is manual so the first publication and later updates are deliberate.
-Once deployed, add the live URL to the root and package READMEs. The project has
-no client-side routes, so it does not need a Pages SPA fallback.
+The repository uses **GitHub Actions** as the Pages source. To publish a new
+build, open **Actions → Demo on GitHub Pages**, choose **Run workflow** on `main`,
+and wait for the deployment to finish.
